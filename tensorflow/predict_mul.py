@@ -56,6 +56,8 @@ def predict(model_data_path, image_root, output_root):
             fig = plt.figure()
             ii = plt.imshow(pred[0,:,:,0], interpolation='nearest')
             #fig.colorbar(ii)
+	    ii.set_cmap('gray')
+	    plt.axis('off')
             plt.savefig(output_path)
 	    #plt.show()
         
