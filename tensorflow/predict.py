@@ -1,4 +1,5 @@
 import argparse
+#import cv2.cv
 import os
 import numpy as np
 import tensorflow as tf
@@ -6,6 +7,9 @@ from matplotlib import pyplot as plt
 from PIL import Image
 
 import models
+
+np.set_printoptions(threshold=np.nan)
+#print(cv.__version__)
 
 def predict(model_data_path, image_path):
 
@@ -44,13 +48,14 @@ def predict(model_data_path, image_path):
         pred = sess.run(net.get_output(), feed_dict={input_node: img})
 	print(pred.shape)        
         # Plot result
-        fig = plt.figure()
-        ii = plt.imshow(pred[0,:,:,0], interpolation='nearest')
-        ii.set_cmap('gray')
-	fig.colorbar(ii)
-	plt.axis('off')
-        plt.show()
-        
+        fig = plt.figure(frameon=False, figsize=(5, 4), dpi=120) #5:4,120
+	ax = fig.add_axes([0, 0, 1, 1])
+        ii = ax.imshow(pred[0,:,:,0],cmap=plt.cm.gray,interpolation='nearest')
+	#ii.set_cmap('gray')
+	#fig.colorbar(ii)
+	ax.axis('off')
+	plt.savefig("test.png")
+        #plt.show()
         return pred
         
                 

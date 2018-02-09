@@ -1,3 +1,3 @@
 #/bin/bash
 
-python predict_mul.py /mnt/hd0/3data/models/depth/NYU_FCRN.ckpt /mnt/hd0/3data/raw/color_images /mnt/hd0/3data/raw/depth_images
+python predict_mul.py /mnt/hd0/3data/models/depth/NYU_FCRN.ckpt /mnt/hd0/3data/nuim/living_room_traj0_frei_png/rgb /mnt/hd0/3data/nuim/living_room_traj0_frei_png/depth_pre
