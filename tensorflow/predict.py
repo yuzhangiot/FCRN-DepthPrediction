@@ -5,6 +5,8 @@ import numpy as np
 import tensorflow as tf
 from matplotlib import pyplot as plt
 from PIL import Image
+import numpngw
+import scipy.ndimage
 
 import models
 
@@ -46,16 +48,37 @@ def predict(model_data_path, image_path):
 
         # Evalute the network for the given image
         pred = sess.run(net.get_output(), feed_dict={input_node: img})
-	print(pred.shape)        
-        # Plot result
-        fig = plt.figure(frameon=False, figsize=(5, 4), dpi=120) #5:4,120
-	ax = fig.add_axes([0, 0, 1, 1])
-        ii = ax.imshow(pred[0,:,:,0],cmap=plt.cm.gray,interpolation='nearest')
-	#ii.set_cmap('gray')
-	#fig.colorbar(ii)
-	ax.axis('off')
-	plt.savefig("test.png")
-        #plt.show()
+        # print(pred.shape)
+        # print(pred[0,:,:,0])
+        
+        
+        pre_new = pred[0,:,:,0]
+        # pre_new = pre_new * 1000 * 5
+
+        pre_resize = scipy.ndimage.zoom(pre_new, 4, order=0)
+        pre_resize = pre_resize * 1000 * 5
+
+        img = np.zeros((128 * 4, 160 * 4, 1), dtype=np.uint16)
+        img[:,:,0] = pre_resize
+        
+        # print(img)
+        # print(img.shape)
+        print("max is: " + str(np.amax(pre_resize)))
+        print("min is: " + str(np.amin(pre_resize)))
+
+        numpngw.write_png("test.png", img)
+
+
+
+        # # Plot result
+        # fig = plt.figure(frameon=False, figsize=(5, 4), dpi=120) #5:4,120
+        # ax = fig.add_axes([0, 0, 1, 1])
+        # ii = ax.imshow(pre_new,cmap=plt.cm.gray,interpolation='nearest')
+        # #ii.set_cmap('gray')
+        # #fig.colorbar(ii)
+        # ax.axis('off')
+        # plt.savefig("test.png")
+        # plt.show()
         return pred
         
                 
